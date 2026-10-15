@@ -48,11 +48,11 @@ GSAP + ScrollTrigger + Lenis. Títulos revelados por linha, linhas de medição 
 Mobile first, imagens WebP com lazy loading, meta tags, Open Graph com a foto da Karina, favicon, JSON-LD de ProfessionalService. Caminhos de arquivos relativos. Cada foto aparece uma vez só no site.
 
 ## 6. Sem cara de IA
-- Proibido travessão (o caractere "—") em qualquer texto.
+- Proibido travessão (o caractere travessão, U+2014) em qualquer texto.
 - Proibido emoji no layout.
 - Proibidas frases clichê: "transformando sonhos em realidade", "excelência e qualidade", "soluções inovadoras", "sua melhor escolha".
 - Nunca inventar número, depoimento, cliente ou prêmio.
-- No fim, procurar "—" e emojis em todos os arquivos e confirmar que não sobrou nenhum.
+- No fim, procurar travessões (U+2014) e emojis em todos os arquivos e confirmar que não sobrou nenhum.
 
 ## 7. Entrega
 Sem screenshots, no máximo 2 revisões. Pronto para a Vercel. Commit e push.
