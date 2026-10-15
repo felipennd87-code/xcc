@@ -36,20 +36,28 @@
   <link rel="icon" href="assets/icons/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 
-  <!-- Fontes (hospedadas em assets/fonts) -->
-  <script>
-    /* preload das fontes só quando servido por http(s); aberto com dois cliques (file://) o @font-face carrega direto */
-    if (location.protocol.indexOf('http') === 0) {
-      ['archivo-600-800-latin', 'inter-400-latin'].forEach(function (n) {
-        var l = document.createElement('link');
-        l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = 'anonymous';
-        l.href = 'assets/fonts/' + n + '.woff2';
-        document.head.appendChild(l);
-      });
-    }
-  </script>
+  <!-- Fontes do Google: só os pesos usados (Archivo 700 e 800, Inter 400/500/600, JetBrains Mono 500) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/archivo/v25/k3kQo8UDI-1M0wlSfdnoLg.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,700..800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,700..800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap"></noscript>
 
   <link rel="preload" as="image" href="assets/video/hero-poster.webp" type="image/webp" fetchpriority="high">
+  <style>
+    /* CSS crítico do primeiro quadro (o restante está em styles.css) */
+    body{margin:0;background:#14171C;color:#E9E2D6;font-family:Inter,system-ui,sans-serif}
+    svg{overflow:hidden}
+    .topo{position:fixed;inset:0 0 auto;z-index:50;height:64px}
+    .topo-in{height:100%;display:flex;align-items:center;gap:10px}
+    .hero{position:relative;overflow:hidden;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;background:#14171C}
+    .hero-media{position:absolute;inset:0;z-index:-1}
+    .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .hero-veu{position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,23,28,.92),rgba(20,23,28,.35))}
+    .hero-texto{max-width:720px}
+    .nav,.so-largo{display:none}
+  </style>
   <link rel="stylesheet" href="styles.css">
 
   <!-- COLAR AQUI O PIXEL DA META PARA AS CAMPANHAS -->
@@ -104,12 +112,12 @@
 
   <!-- ============ TOPO ============ -->
   <header class="topo" id="topo">
-    <div class="topo-in">
+    <div class="wrap topo-in">
       <a class="marcas" href="#inicio" aria-label="JC Projetos e Engenharia e Benigno Engenharia, voltar ao início">
         <!-- TROCAR PELA LOGO DA JC -->
-        <svg class="marca-jc" viewBox="0 0 100 100" aria-hidden="true"><use href="#logo-jc"/></svg>
+        <svg class="marca-jc" width="36" height="36" viewBox="0 0 100 100" aria-hidden="true"><use href="#logo-jc"/></svg>
         <span class="marcas-sep" aria-hidden="true">·</span>
-        <svg class="marca-benigno" viewBox="0 0 900 166" aria-hidden="true"><use href="#logo-benigno"/></svg>
+        <svg class="marca-benigno" width="174" height="32" viewBox="0 0 900 166" aria-hidden="true"><use href="#logo-benigno"/></svg>
       </a>
       <nav class="nav" id="menu" aria-label="Seções da página">
         <a href="#servicos">Serviços</a>
@@ -117,7 +125,7 @@
         <a href="#quem-somos">Quem somos</a>
         <a href="#orcamento">Orçamento</a>
       </nav>
-      <a class="btn btn-terra btn-topo" href="#orcamento"><span class="so-largo">Quero um </span><span class="cap-mobile">orçamento</span></a>
+      <a class="btn btn-terra btn-topo" href="#orcamento"><span><span class="so-largo">Quero um </span><span class="cap-mobile">orçamento</span></span></a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
         <span></span><span></span>
       </button>
@@ -138,30 +146,29 @@
       </div>
 
       <div class="wrap hero-in">
-        <p class="cota-par" aria-label="Parceria JC e Benigno">
-          <span>JC</span><i class="cota-v" aria-hidden="true"></i><span>BENIGNO</span>
-        </p>
-        <h1 class="hero-titulo" id="hero-titulo">Duas engenharias. <span class="terra">Um só compromisso</span> com o seu projeto.</h1>
-        <p class="hero-sub">Do projeto e orçamento à execução, perícia e regularização. A JC Projetos e Engenharia e a Benigno Engenharia acompanham sua obra do começo ao fim, em Vitória da Conquista e região.</p>
-        <div class="hero-acoes">
-          <a class="btn btn-terra btn-lg" href="#orcamento">Fazer orçamento em 1 minuto <svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></a>
-          <a class="btn btn-contorno btn-lg" href="#obras">Ver obras realizadas</a>
+        <div class="hero-texto">
+          <p class="cota-par" aria-label="Parceria JC e Benigno">
+            <span>JC</span><i class="cota-v" aria-hidden="true"></i><span>BENIGNO</span>
+          </p>
+          <h1 class="hero-titulo" id="hero-titulo">Duas engenharias. <span class="terra">Um só compromisso</span> com o seu projeto.</h1>
+          <p class="hero-sub">Do projeto e orçamento à execução, perícia e regularização. A JC Projetos e Engenharia e a Benigno Engenharia acompanham sua obra do começo ao fim, em Vitória da Conquista e região.</p>
+          <div class="hero-acoes">
+            <a class="btn btn-terra btn-lg" href="#orcamento">Fazer orçamento em 1 minuto <svg class="seta" width="18" height="18" aria-hidden="true"><use href="#i-seta"/></svg></a>
+            <a class="btn btn-contorno btn-lg" href="#obras">Ver obras realizadas</a>
+          </div>
         </div>
-      </div>
-
-      <div class="faixa">
-        <div class="wrap faixa-in">
+        <p class="faixa">
           <span>Engenheiros civis com CREA ativo</span>
           <span aria-hidden="true">·</span>
           <span>Projetos, obras, laudos e regularização</span>
           <span aria-hidden="true">·</span>
           <span>Vitória da Conquista e região</span>
-        </div>
+        </p>
       </div>
     </section>
 
     <!-- ============ NÚMEROS ============ -->
-    <section class="numeros" aria-labelledby="numeros-titulo">
+    <section class="numeros secao bg-medio" aria-labelledby="numeros-titulo">
       <div class="wrap">
         <h2 class="rotulo" id="numeros-titulo">Currículo em números</h2>
         <ul class="numeros-lista" data-stagger>
@@ -195,23 +202,25 @@
     </section>
 
     <!-- ============ CICLO COMPLETO ============ -->
-    <section class="ciclo secao" id="ciclo" aria-labelledby="ciclo-titulo">
+    <section class="ciclo secao bg-escuro" id="ciclo" aria-labelledby="ciclo-titulo">
       <div class="grade grade-secao" aria-hidden="true"></div>
       <div class="wrap">
         <div class="ciclo-topo">
           <div class="ciclo-texto">
             <p class="rotulo">A parceria</p>
             <h2 class="titulo" id="ciclo-titulo" data-reveal>Um só time do terreno à chave.</h2>
-            <svg class="cota-linha" viewBox="0 0 240 14" aria-hidden="true" data-reveal><path d="M1 7H239M1 1V13M239 1V13M1 7L9 3M1 7L9 11M239 7L231 3M239 7L231 11" pathLength="1"/></svg>
+            <svg class="cota-linha" width="200" height="14" viewBox="0 0 240 14" preserveAspectRatio="none" aria-hidden="true" data-reveal><path d="M1 7H239M1 1V13M239 1V13M1 7L9 3M1 7L9 11M239 7L231 3M239 7L231 11" pathLength="1"/></svg>
             <p class="lead" data-reveal>Quem constrói costuma contratar um para o projeto, outro para o orçamento, outro para a obra e mais alguém para regularizar. Com a parceria, é uma equipe só, que conversa entre si e responde por tudo.</p>
           </div>
           <figure class="ciclo-foto" data-reveal>
             <!-- SUBSTITUIR PELA ORIGINAL EM ALTA: karina-obra-capacete.jpg (447x794, exibida no máximo a 300 px de largura) -->
+            <div class="foto-caixa">
             <picture>
               <source type="image/avif" srcset="assets/img/karina-obra-capacete-149.avif 149w, assets/img/karina-obra-capacete-298.avif 298w, assets/img/karina-obra-capacete-447.avif 447w" sizes="300px">
               <source type="image/webp" srcset="assets/img/karina-obra-capacete-149.webp 149w, assets/img/karina-obra-capacete-298.webp 298w, assets/img/karina-obra-capacete-447.webp 447w" sizes="300px">
               <img src="assets/img/karina-obra-capacete.jpg" srcset="assets/img/karina-obra-capacete-149.jpg 149w, assets/img/karina-obra-capacete-298.jpg 298w, assets/img/karina-obra-capacete.jpg 447w" sizes="300px" width="447" height="794" loading="lazy" decoding="async" alt="Engenheira Karina Benigno de capacete branco em obra com estrutura metálica e um lago ao fundo">
             </picture>
+            </div>
             <figcaption><span class="mono">FIG. 01</span> Karina Benigno em obra</figcaption>
           </figure>
         </div>
@@ -255,12 +264,12 @@
     </section>
 
     <!-- ============ SERVIÇOS ============ -->
-    <section class="servicos secao" id="servicos" aria-labelledby="servicos-titulo">
+    <section class="servicos secao bg-medio" id="servicos" aria-labelledby="servicos-titulo">
       <div class="wrap">
         <div class="cabeca">
           <p class="rotulo">Serviços</p>
           <h2 class="titulo" id="servicos-titulo" data-reveal>O que a parceria resolve.</h2>
-          <svg class="cota-linha" viewBox="0 0 240 14" aria-hidden="true" data-reveal><path d="M1 7H239M1 1V13M239 1V13M1 7L9 3M1 7L9 11M239 7L231 3M239 7L231 11" pathLength="1"/></svg>
+          <svg class="cota-linha" width="200" height="14" viewBox="0 0 240 14" preserveAspectRatio="none" aria-hidden="true" data-reveal><path d="M1 7H239M1 1V13M239 1V13M1 7L9 3M1 7L9 11M239 7L231 3M239 7L231 11" pathLength="1"/></svg>
           <p class="lead">Oito frentes de trabalho, do primeiro traço do projeto ao documento final do imóvel.</p>
         </div>
 
@@ -275,28 +284,25 @@
               </picture>
             </figure>
             <div class="srv-corpo">
-              <span class="srv-n">S.06</span>
-              <svg class="srv-ico" aria-hidden="true"><use href="#i-capacete"/></svg>
+              <div class="srv-topo"><span class="srv-n">S.06</span><svg class="srv-ico" width="32" height="32" aria-hidden="true"><use href="#i-capacete"/></svg></div>
               <h3>Execução de obras</h3>
               <p>Condução técnica de obras residenciais, comerciais e institucionais.</p>
-              <a class="srv-link" href="#orcamento" data-servico="Execução da obra">Pedir orçamento deste serviço <svg aria-hidden="true"><use href="#i-seta"/></svg></a>
+              <a class="srv-link" href="#orcamento" data-servico="Execução da obra">Pedir orçamento deste serviço <svg width="16" height="16" aria-hidden="true"><use href="#i-seta"/></svg></a>
             </div>
           </article>
 
           <article class="srv srv-arq" data-reveal>
-            <span class="srv-n">S.01</span>
-            <svg class="srv-ico" aria-hidden="true"><use href="#i-planta"/></svg>
+            <div class="srv-topo"><span class="srv-n">S.01</span><svg class="srv-ico" width="32" height="32" aria-hidden="true"><use href="#i-planta"/></svg></div>
             <h3>Projetos arquitetônicos</h3>
             <p>Plantas baixas, cortes e fachadas para projetos residenciais, comerciais e institucionais.</p>
-            <a class="srv-link" href="#orcamento" data-servico="Projeto arquitetônico">Pedir orçamento deste serviço <svg aria-hidden="true"><use href="#i-seta"/></svg></a>
+            <a class="srv-link" href="#orcamento" data-servico="Projeto arquitetônico">Pedir orçamento deste serviço <svg width="16" height="16" aria-hidden="true"><use href="#i-seta"/></svg></a>
           </article>
 
           <article class="srv srv-est" data-reveal>
-            <span class="srv-n">S.02</span>
-            <svg class="srv-ico" aria-hidden="true"><use href="#i-estrutura"/></svg>
+            <div class="srv-topo"><span class="srv-n">S.02</span><svg class="srv-ico" width="32" height="32" aria-hidden="true"><use href="#i-estrutura"/></svg></div>
             <h3>Projetos estruturais e instalações</h3>
             <p>Soluções estruturais, elétricas e hidrossanitárias com segurança e desempenho.</p>
-            <a class="srv-link" href="#orcamento" data-servico="Projeto estrutural e instalações">Pedir orçamento deste serviço <svg aria-hidden="true"><use href="#i-seta"/></svg></a>
+            <a class="srv-link" href="#orcamento" data-servico="Projeto estrutural e instalações">Pedir orçamento deste serviço <svg width="16" height="16" aria-hidden="true"><use href="#i-seta"/></svg></a>
           </article>
 
           <article class="srv srv-vis srv-foto" data-reveal>
@@ -309,57 +315,52 @@
               </picture>
             </figure>
             <div class="srv-corpo">
-              <span class="srv-n">S.07</span>
-              <svg class="srv-ico" aria-hidden="true"><use href="#i-lupa"/></svg>
+              <div class="srv-topo"><span class="srv-n">S.07</span><svg class="srv-ico" width="32" height="32" aria-hidden="true"><use href="#i-lupa"/></svg></div>
               <h3>Vistorias, laudos e avaliações</h3>
               <p>Vistorias técnicas, laudos, análise de patologias, avaliação de imóveis e perícias de engenharia.</p>
-              <a class="srv-link" href="#orcamento" data-servico="Vistoria, laudo ou avaliação">Pedir orçamento deste serviço <svg aria-hidden="true"><use href="#i-seta"/></svg></a>
+              <a class="srv-link" href="#orcamento" data-servico="Vistoria, laudo ou avaliação">Pedir orçamento deste serviço <svg width="16" height="16" aria-hidden="true"><use href="#i-seta"/></svg></a>
             </div>
           </article>
 
           <article class="srv srv-inc" data-reveal>
-            <span class="srv-n">S.03</span>
-            <svg class="srv-ico" aria-hidden="true"><use href="#i-incendio"/></svg>
+            <div class="srv-topo"><span class="srv-n">S.03</span><svg class="srv-ico" width="32" height="32" aria-hidden="true"><use href="#i-incendio"/></svg></div>
             <h3>Prevenção contra incêndio</h3>
             <p>Projetos e documentação técnica para AVCB e CLCB junto ao Corpo de Bombeiros.</p>
-            <a class="srv-link" href="#orcamento" data-servico="Prevenção contra incêndio (AVCB/CLCB)">Pedir orçamento deste serviço <svg aria-hidden="true"><use href="#i-seta"/></svg></a>
+            <a class="srv-link" href="#orcamento" data-servico="Prevenção contra incêndio (AVCB/CLCB)">Pedir orçamento deste serviço <svg width="16" height="16" aria-hidden="true"><use href="#i-seta"/></svg></a>
           </article>
 
           <article class="srv srv-orc" data-reveal>
-            <span class="srv-n">S.04</span>
-            <svg class="srv-ico" aria-hidden="true"><use href="#i-orcamento"/></svg>
+            <div class="srv-topo"><span class="srv-n">S.04</span><svg class="srv-ico" width="32" height="32" aria-hidden="true"><use href="#i-orcamento"/></svg></div>
             <h3>Orçamento e levantamento quantitativo</h3>
             <p>Composição de custos, quantitativos de materiais e orçamento via SINAPI.</p>
-            <a class="srv-link" href="#orcamento" data-servico="Orçamento da obra">Pedir orçamento deste serviço <svg aria-hidden="true"><use href="#i-seta"/></svg></a>
+            <a class="srv-link" href="#orcamento" data-servico="Orçamento da obra">Pedir orçamento deste serviço <svg width="16" height="16" aria-hidden="true"><use href="#i-seta"/></svg></a>
           </article>
 
           <article class="srv srv-plan" data-reveal>
-            <span class="srv-n">S.05</span>
-            <svg class="srv-ico" aria-hidden="true"><use href="#i-cronograma"/></svg>
+            <div class="srv-topo"><span class="srv-n">S.05</span><svg class="srv-ico" width="32" height="32" aria-hidden="true"><use href="#i-cronograma"/></svg></div>
             <h3>Planejamento e acompanhamento de obras</h3>
             <p>Cronograma físico-financeiro e controle técnico da execução.</p>
-            <a class="srv-link" href="#orcamento" data-servico="Acompanhamento de obra">Pedir orçamento deste serviço <svg aria-hidden="true"><use href="#i-seta"/></svg></a>
+            <a class="srv-link" href="#orcamento" data-servico="Acompanhamento de obra">Pedir orçamento deste serviço <svg width="16" height="16" aria-hidden="true"><use href="#i-seta"/></svg></a>
           </article>
 
           <article class="srv srv-reg" data-reveal>
-            <span class="srv-n">S.08</span>
-            <svg class="srv-ico" aria-hidden="true"><use href="#i-documento"/></svg>
+            <div class="srv-topo"><span class="srv-n">S.08</span><svg class="srv-ico" width="32" height="32" aria-hidden="true"><use href="#i-documento"/></svg></div>
             <h3>Regularização de imóveis</h3>
             <p>Documentação técnica para regularização junto aos órgãos competentes.</p>
-            <a class="srv-link" href="#orcamento" data-servico="Regularização de imóvel">Pedir orçamento deste serviço <svg aria-hidden="true"><use href="#i-seta"/></svg></a>
+            <a class="srv-link" href="#orcamento" data-servico="Regularização de imóvel">Pedir orçamento deste serviço <svg width="16" height="16" aria-hidden="true"><use href="#i-seta"/></svg></a>
           </article>
         </div>
       </div>
     </section>
 
     <!-- ============ OBRAS ============ -->
-    <section class="obras secao" id="obras" aria-labelledby="obras-titulo">
+    <section class="obras secao bg-escuro" id="obras" aria-labelledby="obras-titulo">
       <div class="wrap">
         <div class="cabeca cabeca-linha">
           <div>
             <p class="rotulo">Obras e projetos realizados</p>
             <h2 class="titulo" id="obras-titulo" data-reveal>Obras que já saíram do papel.</h2>
-            <svg class="cota-linha" viewBox="0 0 240 14" aria-hidden="true" data-reveal><path d="M1 7H239M1 1V13M239 1V13M1 7L9 3M1 7L9 11M239 7L231 3M239 7L231 11" pathLength="1"/></svg>
+            <svg class="cota-linha" width="200" height="14" viewBox="0 0 240 14" preserveAspectRatio="none" aria-hidden="true" data-reveal><path d="M1 7H239M1 1V13M239 1V13M1 7L9 3M1 7L9 11M239 7L231 3M239 7L231 11" pathLength="1"/></svg>
           </div>
           <div class="filtro" role="group" aria-label="Filtrar obras por engenheiro">
             <button type="button" class="filtro-btn" data-filtro="todos" aria-pressed="true">Todos</button>
@@ -372,7 +373,7 @@
           <li class="obra obra-larga" data-autor="jarbas" data-reveal>
             <div class="obra-midia">
               <!-- TROCAR PELA FOTO DA OBRA EM ALTA RESOLUÇÃO -->
-              <svg class="ill" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de conjunto habitacional"><use href="#ill-conjunto"/></svg>
+              <svg class="ill" width="400" height="240" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de conjunto habitacional"><use href="#ill-conjunto"/></svg>
             </div>
             <div class="obra-info">
               <p class="obra-num">1.200 <span>unidades</span></p>
@@ -384,7 +385,7 @@
           <li class="obra" data-autor="jarbas" data-reveal>
             <div class="obra-midia">
               <!-- TROCAR PELA FOTO DA OBRA EM ALTA RESOLUÇÃO -->
-              <svg class="ill" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de conjunto habitacional"><use href="#ill-conjunto"/></svg>
+              <svg class="ill" width="400" height="240" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de conjunto habitacional"><use href="#ill-conjunto"/></svg>
             </div>
             <div class="obra-info">
               <p class="obra-num">400 <span>unidades</span></p>
@@ -396,7 +397,7 @@
           <li class="obra" data-autor="karina" data-reveal>
             <div class="obra-midia">
               <!-- TROCAR PELA FOTO DA OBRA EM ALTA RESOLUÇÃO -->
-              <svg class="ill" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de casas duplex"><use href="#ill-duplex"/></svg>
+              <svg class="ill" width="400" height="240" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de casas duplex"><use href="#ill-duplex"/></svg>
             </div>
             <div class="obra-info">
               <p class="obra-num">36 <span>duplex de alto padrão</span></p>
@@ -408,7 +409,7 @@
           <li class="obra" data-autor="karina" data-reveal>
             <div class="obra-midia">
               <!-- TROCAR PELA FOTO DA OBRA EM ALTA RESOLUÇÃO -->
-              <svg class="ill" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de academia de grande porte"><use href="#ill-academia"/></svg>
+              <svg class="ill" width="400" height="240" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de academia de grande porte"><use href="#ill-academia"/></svg>
               <span class="selo">Em andamento</span>
             </div>
             <div class="obra-info">
@@ -421,7 +422,7 @@
           <li class="obra" data-autor="jarbas" data-reveal>
             <div class="obra-midia">
               <!-- TROCAR PELA FOTO DA OBRA EM ALTA RESOLUÇÃO -->
-              <svg class="ill" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de escola com quadra coberta"><use href="#ill-escola"/></svg>
+              <svg class="ill" width="400" height="240" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de escola com quadra coberta"><use href="#ill-escola"/></svg>
             </div>
             <div class="obra-info">
               <p class="obra-num">1.323,11 <span>m²</span></p>
@@ -433,7 +434,7 @@
           <li class="obra" data-autor="jarbas" data-reveal>
             <div class="obra-midia">
               <!-- TROCAR PELA FOTO DA OBRA EM ALTA RESOLUÇÃO -->
-              <svg class="ill" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de edifício residencial em construção"><use href="#ill-obra"/></svg>
+              <svg class="ill" width="400" height="240" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de edifício residencial em construção"><use href="#ill-obra"/></svg>
               <span class="selo">Em andamento</span>
             </div>
             <div class="obra-info">
@@ -462,7 +463,7 @@
           <li class="obra" data-autor="jarbas" data-reveal>
             <div class="obra-midia">
               <!-- TROCAR PELA FOTO DA OBRA EM ALTA RESOLUÇÃO -->
-              <svg class="ill" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de estação de recarga e painéis solares"><use href="#ill-solar"/></svg>
+              <svg class="ill" width="400" height="240" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de estação de recarga e painéis solares"><use href="#ill-solar"/></svg>
             </div>
             <div class="obra-info">
               <p class="obra-num obra-num-txt">Recarga + solar</p>
@@ -474,7 +475,7 @@
           <li class="obra" data-autor="karina" data-reveal>
             <div class="obra-midia">
               <!-- TROCAR PELA FOTO DA OBRA EM ALTA RESOLUÇÃO -->
-              <svg class="ill" viewBox="0 0 400 240" role="img" aria-label="Planta baixa técnica de academia"><use href="#ill-planta-academia"/></svg>
+              <svg class="ill" width="400" height="240" viewBox="0 0 400 240" role="img" aria-label="Planta baixa técnica de academia"><use href="#ill-planta-academia"/></svg>
             </div>
             <div class="obra-info">
               <p class="obra-num obra-num-txt">Academia</p>
@@ -486,7 +487,7 @@
           <li class="obra" data-autor="karina" data-reveal>
             <div class="obra-midia">
               <!-- TROCAR PELA FOTO DA OBRA EM ALTA RESOLUÇÃO -->
-              <svg class="ill" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de estrutura metálica de painel de LED"><use href="#ill-led"/></svg>
+              <svg class="ill" width="400" height="240" viewBox="0 0 400 240" role="img" aria-label="Ilustração técnica de estrutura metálica de painel de LED"><use href="#ill-led"/></svg>
             </div>
             <div class="obra-info">
               <p class="obra-num obra-num-txt">Estrutura metálica</p>
@@ -498,7 +499,7 @@
           <li class="obra" data-autor="karina" data-reveal>
             <div class="obra-midia">
               <!-- TROCAR PELA FOTO DA OBRA EM ALTA RESOLUÇÃO -->
-              <svg class="ill" viewBox="0 0 400 240" role="img" aria-label="Planta baixa técnica residencial com cotas"><use href="#ill-planta"/></svg>
+              <svg class="ill" width="400" height="240" viewBox="0 0 400 240" role="img" aria-label="Planta baixa técnica residencial com cotas"><use href="#ill-planta"/></svg>
             </div>
             <div class="obra-info">
               <p class="obra-num obra-num-txt">Residencial · comercial · misto</p>
@@ -512,13 +513,13 @@
     </section>
 
     <!-- ============ QUEM SOMOS ============ -->
-    <section class="quem secao" id="quem-somos" aria-labelledby="quem-titulo">
+    <section class="quem secao bg-medio" id="quem-somos" aria-labelledby="quem-titulo">
       <div class="grade grade-secao" aria-hidden="true"></div>
       <div class="wrap">
         <div class="cabeca">
           <p class="rotulo">Quem somos</p>
           <h2 class="titulo" id="quem-titulo" data-reveal>Dois engenheiros, uma equipe.</h2>
-          <svg class="cota-linha" viewBox="0 0 240 14" aria-hidden="true" data-reveal><path d="M1 7H239M1 1V13M239 1V13M1 7L9 3M1 7L9 11M239 7L231 3M239 7L231 11" pathLength="1"/></svg>
+          <svg class="cota-linha" width="200" height="14" viewBox="0 0 240 14" preserveAspectRatio="none" aria-hidden="true" data-reveal><path d="M1 7H239M1 1V13M239 1V13M1 7L9 3M1 7L9 11M239 7L231 3M239 7L231 11" pathLength="1"/></svg>
         </div>
 
         <div class="perfis">
@@ -568,8 +569,8 @@
                 <li>Regularização de imóveis</li>
               </ul>
               <p class="perfil-insta">
-                <a href="https://www.instagram.com/karinabenigno.eng/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-instagram"/></svg>@karinabenigno.eng</a>
-                <a href="https://www.instagram.com/benigno.engenharia/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-instagram"/></svg>@benigno.engenharia</a>
+                <a href="https://www.instagram.com/karinabenigno.eng/" target="_blank" rel="noopener"><svg width="20" height="20" aria-hidden="true"><use href="#i-instagram"/></svg>@karinabenigno.eng</a>
+                <a href="https://www.instagram.com/benigno.engenharia/" target="_blank" rel="noopener"><svg width="20" height="20" aria-hidden="true"><use href="#i-instagram"/></svg>@benigno.engenharia</a>
               </p>
             </div>
           </article>
@@ -578,12 +579,12 @@
     </section>
 
     <!-- ============ DIFERENCIAIS ============ -->
-    <section class="dif secao" aria-labelledby="dif-titulo">
+    <section class="dif secao bg-escuro" aria-labelledby="dif-titulo">
       <div class="wrap dif-in">
         <div class="cabeca dif-cabeca">
           <p class="rotulo">Diferenciais</p>
           <h2 class="titulo" id="dif-titulo" data-reveal>Como a parceria trabalha.</h2>
-          <svg class="cota-linha" viewBox="0 0 240 14" aria-hidden="true" data-reveal><path d="M1 7H239M1 1V13M239 1V13M1 7L9 3M1 7L9 11M239 7L231 3M239 7L231 11" pathLength="1"/></svg>
+          <svg class="cota-linha" width="200" height="14" viewBox="0 0 240 14" preserveAspectRatio="none" aria-hidden="true" data-reveal><path d="M1 7H239M1 1V13M239 1V13M1 7L9 3M1 7L9 11M239 7L231 3M239 7L231 11" pathLength="1"/></svg>
         </div>
         <ol class="dif-lista" data-stagger>
           <li data-reveal><span class="dif-n">01</span><div><h3>Visão completa</h3><p>Do projeto e orçamento à execução e perícia técnica.</p></div></li>
@@ -597,7 +598,7 @@
     </section>
 
     <!-- ============ QUIZ ============ -->
-    <section class="quiz secao" id="orcamento" aria-labelledby="quiz-titulo">
+    <section class="quiz secao bg-medio" id="orcamento" aria-labelledby="quiz-titulo">
       <div class="grade grade-secao" aria-hidden="true"></div>
       <div class="wrap quiz-in">
         <div class="quiz-cabeca">
@@ -684,30 +685,32 @@
             </div>
             <dl class="resumo" id="q-resumo"></dl>
             <button type="submit" class="btn btn-wa btn-lg btn-bloco">
-              <svg aria-hidden="true"><use href="#i-whatsapp"/></svg>
+              <svg width="24" height="24" aria-hidden="true"><use href="#i-whatsapp"/></svg>
               Falar com os engenheiros no WhatsApp
             </button>
             <p class="q-nota">Abre o WhatsApp com a mensagem pronta. Você revisa antes de enviar.</p>
           </fieldset>
 
           <div class="quiz-nav">
-            <button type="button" class="btn-voltar" id="q-voltar" hidden><svg aria-hidden="true"><use href="#i-seta"/></svg> Voltar</button>
-            <button type="button" class="btn btn-terra" id="q-continuar" hidden disabled>Continuar <svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></button>
+            <button type="button" class="btn-voltar" id="q-voltar" hidden><svg width="18" height="18" aria-hidden="true"><use href="#i-seta"/></svg> Voltar</button>
+            <button type="button" class="btn btn-terra" id="q-continuar" hidden disabled>Continuar <svg class="seta" width="18" height="18" aria-hidden="true"><use href="#i-seta"/></svg></button>
           </div>
         </form>
       </div>
     </section>
 
     <!-- ============ CHAMADA FINAL ============ -->
-    <section class="final" aria-labelledby="final-titulo">
+    <section class="final secao" aria-labelledby="final-titulo">
       <div class="wrap final-in">
-        <svg class="final-desenho" viewBox="0 0 400 240" aria-hidden="true"><use href="#ill-planta"/></svg>
+        <div class="final-texto">
         <p class="cota-par cota-par-escura" aria-hidden="true"><span>JC</span><i class="cota-v"></i><span>BENIGNO</span></p>
         <h2 class="final-titulo" id="final-titulo" data-reveal>Sua obra merece engenheiro do começo ao fim.</h2>
         <div class="final-acoes">
-          <a class="btn btn-terra btn-lg" href="#orcamento">Fazer meu orçamento <svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></a>
+          <a class="btn btn-terra btn-lg" href="#orcamento">Fazer meu orçamento <svg class="seta" width="18" height="18" aria-hidden="true"><use href="#i-seta"/></svg></a>
           <a class="link-wa" href="https://wa.me/5577988424244" data-wa-direto target="_blank" rel="noopener">ou chame direto no WhatsApp</a>
         </div>
+        </div>
+        <svg class="final-desenho" width="400" height="240" viewBox="0 0 400 240" aria-hidden="true"><use href="#ill-planta"/></svg>
       </div>
     </section>
   </main>
@@ -718,9 +721,9 @@
       <div class="rodape-topo">
         <div class="marcas marcas-rodape" aria-label="JC Projetos e Engenharia e Benigno Engenharia" role="img">
           <!-- TROCAR PELA LOGO DA JC -->
-          <svg class="marca-jc" viewBox="0 0 100 100" aria-hidden="true"><use href="#logo-jc"/></svg>
+          <svg class="marca-jc" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true"><use href="#logo-jc"/></svg>
           <span class="marcas-sep" aria-hidden="true">·</span>
-          <svg class="marca-benigno-full" viewBox="0 0 728 485" aria-hidden="true"><use href="#logo-benigno-full"/></svg>
+          <svg class="marca-benigno-full" width="96" height="64" viewBox="0 0 728 485" aria-hidden="true"><use href="#logo-benigno-full"/></svg>
         </div>
         <p class="rodape-nome">JC Projetos e Engenharia · Benigno Engenharia</p>
       </div>
@@ -746,7 +749,7 @@
 
   <!-- Botão flutuante -->
   <a class="wa-flutuante" href="https://wa.me/5577988424244" data-wa-direto target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
-    <svg aria-hidden="true"><use href="#i-whatsapp"/></svg>
+    <svg width="24" height="24" aria-hidden="true"><use href="#i-whatsapp"/></svg>
   </a>
 
   <!-- ============ ÍCONES E ILUSTRAÇÕES (SVG próprios) ============ -->
